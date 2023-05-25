@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import Http404
 
+
 posts = [
     {
         'id': 0,
@@ -45,17 +46,21 @@ posts = [
 ]
 
 
-# Create your views here.
 def index(request):
     template = 'blog/index.html'
-    context = {'post': posts[::-1]}
+    context = {'post': reversed(posts)}
     return render(request, template, context)
 
 
 def post_detail(request, id):
     template = 'blog/detail.html'
-    context = {'post': posts[id]}
-    return render(request, template, context)
+    try:
+        context = {
+            'post': posts[id]
+        }
+        return render(request, template, context)
+    except LookupError:
+        raise Http404('Page Not Found')
 
 
 def category_posts(request, category_slug):
