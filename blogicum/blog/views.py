@@ -59,7 +59,7 @@ def post_detail(request, id):
             'post': posts[id]
         }
         return render(request, template, context)
-    except LookupError:
+    except IndexError:
         raise Http404('Page Not Found')
 
 
